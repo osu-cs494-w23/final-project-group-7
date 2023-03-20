@@ -3,10 +3,11 @@ import { NavLink } from "react-router-dom";
 export default function Navbar() {
 	return(
         <>
-        <ui>
+        <ul>
             <li><NavLink to="/">Home</NavLink></li>
             <li><NavLink to="/championCompare">Compare Champions</NavLink></li>
-        </ui>
+            <li><NavLink to="/summonerCompare">Compare Summoners</NavLink></li>
+        </ul>
         </>
     )
 }
