@@ -1,0 +1,39 @@
+.summoner-comparison-title {
+    margin-left: 5px;
+}
+
+input {
+    width: 200px;
+    margin-right: 2.5px;
+    margin-left: 2.5px;
+}
+
+.clear-all {
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.players-container {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+
+}
+
+.player-stats {
+    border: solid black;
+    width: 175px;
+    height: 200px;
+    margin: 5px;
+    padding: 5px;
+}
+
+select {
+    margin-left: 5px;
+}
+
+.error-message {
+    margin-left: 5px;
+    color: red;
+    font-style: italic;
+}
