@@ -1,0 +1,19 @@
+.search-bar {
+    width: 200px;
+    margin-right: 2.5px;
+}
+
+.players-container {
+    margin-top: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+
+}
+
+.player-stats {
+    border: 5px solid #969696;
+    width: 200px;
+    height: 200px;
+    margin: 5px;
+}
