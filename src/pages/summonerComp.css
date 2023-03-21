@@ -2,10 +2,10 @@
     margin-left: 5px;
 }
 
-.search-bar {
+input {
     width: 200px;
     margin-right: 2.5px;
-    margin-left: 5px;
+    margin-left: 2.5px;
 }
 
 .clear-all {
@@ -26,4 +26,14 @@
     height: 200px;
     margin: 5px;
     padding: 5px;
+}
+
+select {
+    margin-left: 5px;
+}
+
+.error-message {
+    margin-left: 5px;
+    color: red;
+    font-style: italic;
 }
