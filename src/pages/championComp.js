@@ -11,7 +11,6 @@ const APIKEY = APIKEYDATA.key
 function ChampCard(props){
     const [inputQuery, setInputQuery] = useState("")
     const [value, setValue] = useState("")
-    //const [summoner, loadingSum, errorSum] = GetSummonerID(searchParams.get("q"))
     const [ mastery, summoner, loading, error ] = GetMastery(inputQuery, props.champion)
 
     return (
@@ -43,11 +42,13 @@ function ChampCard(props){
 export default function ChampionComp() {
     const [championID, setChampionID] = useState("1")
     const [champion, setChampion] = useState("Annie")
+
+    let image = `championIcons/${champion}.png`
     return(
         <>
         <Select options={champIDs} onChange ={opt => {setChampionID(opt.value); setChampion(opt.label)}}/>
         <h1>{champion}</h1>
-
+        <img src={image} width="250px"/>
         <div style ={{display: "flex"}}>
             {Array.from(Array(4), (e, i) => {
                 return <div key = {i} className = "ChampCard"><ChampCard champion = {championID}/></div>
