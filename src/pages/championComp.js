@@ -1,34 +1,56 @@
+import './championComp.css'
 import APIKEYDATA from '../apikey'
-import GetSummonerID from '../hooks/GetSummoner'
-import ChampIDs from '../data/lol_IDS'
+import { GetMastery } from '../hooks/GetSummoner'
+import { useState} from 'react'
+import Select from 'react-select'
+import champIDs from '../data/lol_IDS.json'
 const APIKEY = APIKEYDATA.key
+//https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${summonerID}/by-champion/${championID}?api_key=${APIKEY}
+
 
 function ChampCard(props){
-    const champion = props.champion
-    const summoner = 'Skinniest'
-    const summonerID = GetSummonerID(summoner);
-
-
+    const [inputQuery, setInputQuery] = useState("")
+    const [value, setValue] = useState("")
+    //const [summoner, loadingSum, errorSum] = GetSummonerID(searchParams.get("q"))
+    const [ mastery, summoner, loading, error ] = GetMastery(inputQuery, props.champion)
 
     return (
         <div>
-            <h1>{summonerID}</h1>
+            <form onSubmit = {e => {
+                e.preventDefault()
+                setInputQuery(value)
+                setValue("")
+            }}>
+                <input value = {value} onChange ={e => setValue(e.target.value)}/>
+                <button type = "submit">Search Summoner</button>
+            </form>
+            {error && <h1>Failed to Find Summoner!</h1>}
+            {loading ? <h1>Loading...</h1>
+            :
+            (
+                <>
+                    <h1>Summoner: {summoner}</h1>
+                    <h1>Champion Level: {mastery.championLevel}</h1>
+                    <h1>Champion Points: {mastery.championPoints}</h1>
+                </>
+            )
+            }
         </div>
     )
 }
 
 
 export default function ChampionComp() {
-    const champion = "1"
-    const number = 2
+    const [championID, setChampionID] = useState("1")
+    const [champion, setChampion] = useState("Annie")
     return(
         <>
-        <h1>Place Dropdown of Champs here</h1>
-        <h1>Place Dropdown of Compare Amount</h1>
+        <Select options={champIDs} onChange ={opt => {setChampionID(opt.value); setChampion(opt.label)}}/>
+        <h1>{champion}</h1>
 
-        <div>
-            {Array.from(Array(number), (e, i) => {
-                return <div><ChampCard champion/></div>
+        <div style ={{display: "flex"}}>
+            {Array.from(Array(4), (e, i) => {
+                return <div key = {i} className = "ChampCard"><ChampCard champion = {championID}/></div>
             })}
         </div>
         
