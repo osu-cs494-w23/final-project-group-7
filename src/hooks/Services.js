@@ -36,7 +36,7 @@ function GetSummonerID(query) {
             }
 
             if (!ignore) {
-                setSummoner(responseBody.puuid || {})
+                setSummoner(responseBody || {})
                 setLoading(false)
             }
         }
