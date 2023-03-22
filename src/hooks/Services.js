@@ -210,3 +210,54 @@ export function GetMatchDetails(query) {
 
     return [ matchDetail, loading, error ]
 }
+
+//takes the puuid from the GetSummonerID function above to get the summoner's stats
+export function GetSummonerStats(query) {
+    const [ stats, setStats ] = useState([])
+    const [ loading, setLoading ] = useState(false)
+    const [ error, setError ] = useState(false)
+
+    useEffect(() => {
+        let ignore = false
+        const controller = new AbortController()
+        async function fetchSearchResults() {
+            setLoading(true)
+            let responseBody = {}
+            try {
+                const response = await fetch(
+                    `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${query}?api_key=${APIKEY}`,
+                    { signal: controller.signal }
+                )
+                if (response.status !== 200) {
+                    console.log("== status:", response.status)
+                    setError(true)
+                } else {
+                    setError(false)
+                    responseBody = await response.json()
+                }
+            } catch (e) {
+                if (e instanceof DOMException) {
+                    console.log("HTTP request cancelled")
+                } else {
+                    setError(true)
+                    console.error("Error:", e)
+                    throw e
+                }
+            }
+
+            if (!ignore) {
+                setStats(responseBody[0] || {})
+                setLoading(false)
+            }
+        }
+        if (query) {
+            fetchSearchResults()
+        }
+        return () => {
+            ignore = true
+            controller.abort()
+        }
+    }, [ query ])
+
+    return [ stats, loading, error ]
+}
