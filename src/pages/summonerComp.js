@@ -1,7 +1,28 @@
-import {React, useState } from 'react'
+import {React, useState, useEffect } from 'react'
 import './summonerComp.css';
 import GetSummonerID from '../hooks/Services'
 import { GetSummonerStats, GetMatchHistory, GetMatchDetails } from '../hooks/Services'
+
+function MatchDetails(props) {
+    const [matchDetail] = GetMatchDetails(props.matchList[props.selectedMatch]);
+
+    if (matchDetail.length !== 0) {
+        return (
+            <>
+              <p>Game Duration: {matchDetail.info.gameDuration}</p>
+              <p>Game Mode: {matchDetail.info.gameMode}</p>
+              <p>Game Type: {matchDetail.info.gameType}</p>
+              {matchDetail.info.participants.map((player, index) =>
+                player.summonerId === props.summonerId &&
+                <div key={index}>
+                  <p>Champion: {player.championName}</p>
+                  <p>K/D/A: {player.challenges.kda}</p>
+                </div>
+              )}
+            </>
+          );
+    }
+  }
 
 function SummonerCard() {
     const [selectedSearch, setSelectSearch] = useState("name");
@@ -13,7 +34,6 @@ function SummonerCard() {
     const [stats] = GetSummonerStats(summoner.id);
     const [matchList] = GetMatchHistory(summoner.puuid);
     const [selectedMatch, setSelectMatch] = useState(0);
-    const [matchDetail] = GetMatchDetails(matchList[selectedMatch])
 
     const handleSelect = (e) => {
         setSelectSearch(e.target.value);
@@ -24,23 +44,6 @@ function SummonerCard() {
 
     const handleSelectMatch = (e) => {
         setSelectMatch(e.target.value);
-    }
-
-    const handleMatchDetails = () => {
-        return (
-            <>
-                <p>Game Duration: {matchDetail.info.gameDuration}</p>
-                <p>Game Mode: {matchDetail.info.gameMode}</p>
-                <p>Game Type: {matchDetail.info.gameType}</p>
-                {matchDetail.info.participants.map((player) =>
-                    player.summonerId === summoner.id && 
-                    <>
-                        <p>Champion: {player.championName}</p>
-                        <p>K/D/A: {player.challenges.kda}</p>
-                    </>
-                )}
-            </>
-        )
     }
 
     return (
@@ -91,7 +94,11 @@ function SummonerCard() {
                                     <option value={index}>Match {index + 1}</option>
                                 )}
                             </select>
-                            {handleMatchDetails()}
+                            <MatchDetails 
+                                matchList={matchList}
+                                selectedMatch={selectedMatch}
+                                summonerId={summoner.id}
+                            />
                         </>
                     }
                 </div>
