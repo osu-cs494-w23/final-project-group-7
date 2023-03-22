@@ -7,16 +7,15 @@ function MatchDetails(props) {
     const [matchDetail] = GetMatchDetails(props.matchList[props.selectedMatch]);
 
     if (matchDetail.length !== 0) {
+        console.log("Win: ", matchDetail.info.participants[0].win)
         return (
             <>
-              <p>Game Duration: {matchDetail.info.gameDuration}</p>
-              <p>Game Mode: {matchDetail.info.gameMode}</p>
-              <p>Game Type: {matchDetail.info.gameType}</p>
               {matchDetail.info.participants.map((player, index) =>
                 player.summonerId === props.summonerId &&
                 <div key={index}>
                   <p>Champion: {player.championName}</p>
                   <p>K/D/A: {player.challenges.kda}</p>
+                  {player.win ? <p>Win or Loss: Win!</p> : <p>Win or Loss: Loss :(</p>}
                 </div>
               )}
             </>
@@ -58,17 +57,16 @@ function SummonerCard() {
                             <div><strong>League Points: </strong>{stats.leaguePoints}</div>
                             <div><strong>Matches Won: </strong>{stats.wins}</div>
                             <div><strong>Matches Lost: </strong>{stats.losses}</div>
-                            <div><strong>Match Details</strong></div>
-                            <select value={selectedMatch} onChange={handleSelectMatch}>
-                                {matchList.map((match, index) =>
-                                    <option value={index}>Match {index + 1}</option>
-                                )}
-                            </select>
-                            <MatchDetails 
-                                matchList={matchList}
-                                selectedMatch={selectedMatch}
-                                summonerId={summoner.id}
-                            />
+                            {matchList.map((match, index) =>
+                                <div key={index}>
+                                    <div><strong>Match {index + 1} Details</strong></div>
+                                    <MatchDetails key={index}
+                                        matchList={matchList}
+                                        selectedMatch={index}
+                                        summonerId={summoner.id}
+                                    />
+                                </div>
+                            )}
                         </>
                     }
                 </div>
