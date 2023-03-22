@@ -36,7 +36,7 @@ function GetSummonerID(query) {
             }
 
             if (!ignore) {
-                setSummoner(responseBody.id || {})
+                setSummoner(responseBody.puuid || {})
                 setLoading(false)
             }
         }
@@ -51,6 +51,8 @@ function GetSummonerID(query) {
 
     return [ summoner, loading, error ]
 }
+
+export default GetSummonerID
 
 //takes the encryptedSummonerId from the query above to pull champion mastery list for that player
 //sorted by number of champion points descending
@@ -106,7 +108,7 @@ function GetChampionList(query) {
 }
 
 //takes the puuid from the GetSummonerID function above to request the 10 most recent matchId's for that player
-function GetMatchHistory(query) {
+export function GetMatchHistory(query) {
     const [ matchList, setMatchList ] = useState([])
     const [ loading, setLoading ] = useState(false)
     const [ error, setError ] = useState(false)
@@ -158,7 +160,7 @@ function GetMatchHistory(query) {
 }
 
 //gets ALL match details for the given MatchID, to find details for our specific player we must search through the Participant list using our summoners puuid
-function GetMatchHistory(query) {
+export function GetMatchDetails(query) {
     const [ matchDetail, setMatchDetail ] = useState([])
     const [ loading, setLoading ] = useState(false)
     const [ error, setError ] = useState(false)

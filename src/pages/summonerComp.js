@@ -1,108 +1,83 @@
-import {React, useState} from 'react'
+import {React, useState, useEffect} from 'react'
 import './summonerComp.css';
+import APIKEYDATA from '../apikey'
+import GetSummonerID from '../hooks/Services'
+import { GetMatchHistory, GetMatchDetails } from '../hooks/Services'
+const APIKEY = APIKEYDATA.key
 
-export default function SummonerComp() {
+function SummonerCard(){
+    const [selectedSearch, setSelectSearch] = useState("name");
     const [searchInput, setSearchInput] = useState("");
+    const [value, setValue] = useState("");
+    const [gameValue, setGameValue] = useState("");
+    const [tagValue, setTagValue] = useState("");
     const [players, setPlayers] = useState([]);
-    const [selectedSearch, setSelectSearch] = useState("");
-    const [gameName, setGameName] = useState("");
-    const [tagLine, setTagLine] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-
-    const handleNameChange = (e) => {
-        e.preventDefault();
-        setSearchInput(e.target.value);
-    };
-
-    const handleGameNameChange = (e) => {
-        e.preventDefault();
-        setGameName(e.target.value);
-    }
-
-    const handleTagLineChange = (e) => {
-        e.preventDefault();
-        setTagLine(e.target.value);
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setErrorMessage("");
-
-        if (searchInput !== '') {
-            const newList = players.concat({searchInput});
-            setPlayers(newList);
-            setSearchInput("");
-        } else if (gameName !== '' && tagLine !== '') {
-            const val = gameName + '/' + tagLine
-            const newList = players.concat({val});
-            setPlayers(newList);
-            setGameName("");
-            setTagLine("");
-        } else if (gameName === '' || tagLine === '') {
-            setErrorMessage("All fields need to be filled in");
-        }
-    };
-
-    const handleClearAll = () => {
-        setPlayers([])
-    }
-
-    const handleDelete = (playerName) => {
-        setPlayers((current) =>
-            current.filter(
-                (player) =>
-                    player !== playerName
-            )
-        )
-    };
+    const [summoner, loading, error] = GetSummonerID(searchInput);
+    const [matchList] = GetMatchHistory(summoner);
 
     const handleSelect = (e) => {
-        setSelectSearch(e.target.value)
-    }
-
-    const handleDeck = (search, game_tag) => {
-        if (search !== undefined) {
-            return (<div>{search}</div>)
-        } else if (game_tag !== undefined) {
-            return (<div>{game_tag}</div>)
-        }
+        setSelectSearch(e.target.value);
+        setValue("");
+        setGameValue("");
+        setGameValue("");
     }
 
     return (
-        <>
-            <h1 className='summoner-comparison-title'>Account/Summoner Comparisons</h1>
-            
+        <div>
             <select value={selectedSearch} onChange={handleSelect}>
                 <option value="name">Search by name</option>
                 <option value="game_tag">Search by game name and tag line</option>
             </select>
 
-            {selectedSearch === "game_tag" ? (
+            {selectedSearch === "name" ? (
                 <>
-                    <input type="text" name="gameName" placeholder='Game Name' onChange={handleGameNameChange} value={gameName} />
-                    <input type="text" name="tagLine" placeholder='Tag Line' onChange={handleTagLineChange} value={tagLine} />
+                    <form onSubmit = {e => {
+                        e.preventDefault()
+                        setSearchInput(value)
+                        setValue("")
+                    }}>
+                        <input value={value} onChange={e => setValue(e.target.value)} placeholder="Enter Summoner Name"/>
+                        <button type="submit">Search</button>
+                    </form>
                 </>
                 ) : (
-                <input type="text" name="player-name" placeholder='Enter Account/Summoner Name' onChange={handleNameChange} value={searchInput} />
+                    <form onSubmit = {e => {
+                        e.preventDefault()
+                        setSearchInput(gameValue + "/" + tagValue)
+                        setGameValue("")
+                        setTagValue("")
+                    }}>
+                        <input value={gameValue} onChange={e => setGameValue(e.target.value)} placeholder="Enter Game Name"/>
+                        <input value={tagValue} onChange={e => setTagValue(e.target.value)} placeholder="Enter Tag Line"/>
+                        <button type="submit">Search</button>
+                    </form>
             )}
 
-            <button onClick={handleSubmit}>Search</button>
-            <div className='error-message'>{errorMessage}</div>
+            {!loading && !error &&
+                <div className='summoner-stats-container'>
+                    <p>Summoner: {searchInput}</p>
 
-            {players.length === 0 ? 
-                (<></>) : (
-                    <div>
-                        <button className='clear-all' onClick={() => handleClearAll()}>Clear All Summoners</button>
-                        <div className='players-container'>
-                            {players.map((player, index) => 
-                                <div className='player-stats' key={index}>
-                                    <button className='delete-player' onClick={() => handleDelete(player)}>X</button>
-                                    {handleDeck(player.searchInput, player.val)}
-                                </div>
-                            )}
-                        </div>
-                    </div>
-            )}
+                    {matchList.map((match, index) =>
+                        <p key={index}>Match {index + 1} Details: {match}</p>
+                    )}
+                </div>
+            }
+            {error && loading && <h1>Failed to Find Summoner!</h1>}
+            {loading && !error && <h1>Loading...</h1>}
+        </div>
+    )
+}
+
+
+export default function SummonerComp() {
+    return(
+        <>
+            <h1 className='summoner-comparison-title'>Account/Summoner Comparisons</h1>
+            <div style ={{display: "flex"}}>
+                {Array.from(Array(4), (e, i) => {
+                    return <div key = {i} className = "summoner-card"><SummonerCard/></div>
+                })}
+            </div>
         </>
     )
 }
