@@ -1,13 +1,25 @@
 import { NavLink } from "react-router-dom";
+import './Navbar.css'
+
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+  if (prevScrollpos > currentScrollPos) {
+    document.getElementById("navbar").style.top = "0";
+  } else {
+    document.getElementById("navbar").style.top = "-50px";
+  }
+  prevScrollpos = currentScrollPos;
+}
 
 export default function Navbar() {
 	return(
         <>
-        <ul>
-            <li><NavLink to="/">Home</NavLink></li>
-            <li><NavLink to="/championCompare">Compare Champions</NavLink></li>
-            <li><NavLink to="/summonerCompare">Compare Summoners</NavLink></li>
-        </ul>
+        <div className="navbar">
+            <a><NavLink to="/">Home</NavLink></a>
+            <a><NavLink to="/championCompare">Compare Champions</NavLink></a>
+            <a><NavLink to="/summonerCompare">Compare Summoners</NavLink> </a>
+        </div>
         </>
     )
 }
