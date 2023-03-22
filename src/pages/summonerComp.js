@@ -1,25 +1,46 @@
-import {React, useState, useEffect} from 'react'
+import {React, useState } from 'react'
 import './summonerComp.css';
-import APIKEYDATA from '../apikey'
 import GetSummonerID from '../hooks/Services'
-import { GetMatchHistory, GetMatchDetails } from '../hooks/Services'
-const APIKEY = APIKEYDATA.key
+import { GetSummonerStats, GetMatchHistory, GetMatchDetails } from '../hooks/Services'
 
-function SummonerCard(){
+function SummonerCard() {
     const [selectedSearch, setSelectSearch] = useState("name");
     const [searchInput, setSearchInput] = useState("");
     const [value, setValue] = useState("");
     const [gameValue, setGameValue] = useState("");
     const [tagValue, setTagValue] = useState("");
-    const [players, setPlayers] = useState([]);
     const [summoner, loading, error] = GetSummonerID(searchInput);
-    const [matchList] = GetMatchHistory(summoner);
+    const [stats] = GetSummonerStats(summoner.id);
+    const [matchList] = GetMatchHistory(summoner.puuid);
+    const [selectedMatch, setSelectMatch] = useState(0);
+    const [matchDetail] = GetMatchDetails(matchList[selectedMatch])
 
     const handleSelect = (e) => {
         setSelectSearch(e.target.value);
         setValue("");
         setGameValue("");
         setGameValue("");
+    }
+
+    const handleSelectMatch = (e) => {
+        setSelectMatch(e.target.value);
+    }
+
+    const handleMatchDetails = () => {
+        return (
+            <>
+                <p>Game Duration: {matchDetail.info.gameDuration}</p>
+                <p>Game Mode: {matchDetail.info.gameMode}</p>
+                <p>Game Type: {matchDetail.info.gameType}</p>
+                {matchDetail.info.participants.map((player) =>
+                    player.summonerId === summoner.id && 
+                    <>
+                        <p>Champion: {player.championName}</p>
+                        <p>K/D/A: {player.challenges.kda}</p>
+                    </>
+                )}
+            </>
+        )
     }
 
     return (
@@ -53,13 +74,26 @@ function SummonerCard(){
                     </form>
             )}
 
-            {!loading && !error &&
+            {!loading && !error && 
                 <div className='summoner-stats-container'>
-                    <p>Summoner: {searchInput}</p>
-
-                    {matchList.map((match, index) =>
-                        <p key={index}>Match {index + 1} Details: {match}</p>
-                    )}
+                    <div><strong>Summoner: </strong>{summoner.name}</div>
+                    {summoner.length !== 0 && 
+                        <>
+                            <div><strong>Summoner Level: </strong>{summoner.summonerLevel}</div>
+                            <div><strong>Tier: </strong>{stats.tier}</div>
+                            <div><strong>Rank: </strong>{stats.rank}</div>
+                            <div><strong>League Points: </strong>{stats.leaguePoints}</div>
+                            <div><strong>Matches Won: </strong>{stats.wins}</div>
+                            <div><strong>Matches Lost: </strong>{stats.losses}</div>
+                            <div><strong>Match Details</strong></div>
+                            <select value={selectedMatch} onChange={handleSelectMatch}>
+                                {matchList.map((match, index) =>
+                                    <option value={index}>Match {index + 1}</option>
+                                )}
+                            </select>
+                            {handleMatchDetails()}
+                        </>
+                    }
                 </div>
             }
             {error && loading && <h1>Failed to Find Summoner!</h1>}
