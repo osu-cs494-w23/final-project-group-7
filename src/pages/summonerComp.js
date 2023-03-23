@@ -7,7 +7,6 @@ function MatchDetails(props) {
     const [matchDetail] = GetMatchDetails(props.matchList[props.selectedMatch]);
 
     if (matchDetail.length !== 0) {
-        console.log("Win: ", matchDetail.info.participants[0].win)
         return (
             <>
               {matchDetail.info.participants.map((player, index) =>
@@ -32,11 +31,6 @@ function SummonerCard() {
     const [summoner, loading, error] = GetSummonerID(searchInput);
     const [stats] = GetSummonerStats(summoner.id);
     const [matchList] = GetMatchHistory(summoner.puuid);
-    const [selectedMatch, setSelectMatch] = useState(0);
-
-    const handleSelectMatch = (e) => {
-        setSelectMatch(e.target.value);
-    }
 
     return (
         <div>
