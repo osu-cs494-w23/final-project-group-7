@@ -75,7 +75,7 @@ select {
 .summoner-stats-container {
     margin-left: 2.5px;
     width: 95%;
-    height: 95vh;
+    height: 92.5vh;
     overflow-wrap: break-word;
     overflow-y: auto;
 }
