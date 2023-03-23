@@ -87,3 +87,13 @@ select {
 p {
     margin: 0px;
 }
+
+.summName {
+    font-size: larger;
+    text-align: center;
+}
+
+.summStats {
+    font-size: large;
+    text-align: center;
+}

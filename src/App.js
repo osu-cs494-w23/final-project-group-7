@@ -22,7 +22,7 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path="/championCompare" element={<ChampionComp/>}/>
-        <Route path="/summonerCompare" element={<SummonerComp/>}/>
+        <Route path="/" element={<SummonerComp/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>
     </>

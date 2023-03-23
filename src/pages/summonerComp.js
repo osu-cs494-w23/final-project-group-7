@@ -12,11 +12,8 @@ function MatchDetails(props) {
               {matchDetail.info.participants.map((player, index) =>
                 player.summonerId === props.summonerId &&
                 <div key={index}>
-                  <div className={player.win ? 'win' : 'loss'}>       
-                  <p>Champion: {player.championName}</p>
-                  <img src={`championIcons/${player.championName}.png`} width="50px"/>
-                  <p>K/D/A: {player.challenges.kda}</p>
-                  {player.win ? <p>Win or Loss: Win!</p> : <p>Win or Loss: Loss :(</p>}
+                  <div className={player.win ? 'win' : 'loss'}>
+                  <p><img alt='' src={`championIcons/${player.championName}.png`} width="100px"/> K/D/A: {player.kills}/{player.deaths}/{player.assists}</p>
                   </div>
                 </div>
               )}
@@ -45,16 +42,11 @@ function SummonerCard() {
 
             {!loading && !error && 
                 <div className='summoner-stats-container'>
-                    {summoner.length == 0 && <h2>Enter summoner name for stats to show up here</h2>}
+                    {summoner.length === 0 && <h2>Enter summoner name for stats to show up here</h2>}
                     {summoner.length !== 0 &&  
                         <>
-                            <div><strong>Summoner: </strong><a>{summoner.name}</a></div>
-                            <div><strong>Summoner Level: </strong><a>{summoner.summonerLevel}</a></div>
-                            <div><strong>Tier: </strong><a>{stats.tier}</a></div>
-                            <div><strong>Rank: </strong><a>{stats.rank}</a></div>
-                            <div><strong>League Points: </strong><a>{stats.leaguePoints}</a></div>
-                            <div><strong>Matches Won: </strong><a>{stats.wins}</a></div>
-                            <div><strong>Matches Lost: </strong><a>{stats.losses}</a></div>
+                            <div className='summName'><strong>{summoner.name}</strong><a> Lvl.{summoner.summonerLevel}</a></div>
+                            <div className='summStats'><strong>{stats.tier} {stats.rank} {stats.leaguePoints}LP</strong><a> {stats.wins}W / {stats.losses}L</a></div>
                             {matchList.map((match, index) =>
                                 <div key={index}>
                                     <div><strong>Match {index + 1} Details</strong></div>
