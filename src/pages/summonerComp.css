@@ -7,6 +7,11 @@ p{
     font-family: Beaufort;
     color: #A09B8C
 }
+h2{
+    font-family: Beaufort;
+    color: #A09B8C;
+    font-size: 20px;
+}
 .h1inbox{
     font-family: Beaufort;
     color: #A09B8C
@@ -32,7 +37,8 @@ input {
     width: 80%;
     margin-left: 2.5px;
     background: rgba(255,255,255,0.1);
-    border: #C89B3C;
+    border: 1px solid #C89B3C;
+    color:#A09B8C;
 }
 
 button {

@@ -23,14 +23,14 @@ function ChampCard(props){
                 <input value = {value} onChange ={e => setValue(e.target.value)}/>
                 <button type = "submit">Search Summoner</button>
             </form>
-            {error && <h1>Failed to Find Summoner!</h1>}
-            {loading ? <h1>Loading...</h1>
+            {error && <h1 className='ytext'>Failed to Find Summoner!</h1>}
+            {loading ? <h1 className='ytext'>Loading...</h1>
             :
             (
                 <>
-                    <h1>Summoner: {summoner}</h1>
-                    <h1>Champion Level: {mastery.championLevel}</h1>
-                    <h1>Champion Points: {mastery.championPoints}</h1>
+                    <h1 className='ytext'>Summoner: {summoner}</h1>
+                    <h1 className='ytext'>Champion Level: {mastery.championLevel}</h1>
+                    <h1 className='ytext'>Champion Points: {mastery.championPoints}</h1>
                 </>
             )
             }
@@ -47,7 +47,7 @@ export default function ChampionComp() {
     return(
         <>
         <Select options={champIDs} onChange ={opt => {setChampionID(opt.value); setChampion(opt.label)}}/>
-        <h1>{champion}</h1>
+        <h1 className='ttext'>{champion}</h1>
         <img src={image} width="250px"/>
         <div style ={{display: "flex"}}>
             {Array.from(Array(4), (e, i) => {

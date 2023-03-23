@@ -15,6 +15,7 @@ function MatchDetails(props) {
                 <div key={index}>
                   <div className={player.win ? 'win' : 'loss'}>       
                   <p>Champion: {player.championName}</p>
+                  <img src={`championIcons/${player.championName}.png`} width="50px"/>
                   <p>K/D/A: {player.challenges.kda}</p>
                   {player.win ? <p>Win or Loss: Win!</p> : <p>Win or Loss: Loss :(</p>}
                   </div>
@@ -50,9 +51,10 @@ function SummonerCard() {
 
             {!loading && !error && 
                 <div className='summoner-stats-container'>
-                    <div><strong>Summoner: </strong><a>{summoner.name}</a></div>
-                    {summoner.length !== 0 && 
+                    {summoner.length == 0 && <h2>Enter summoner name for stats to show up here</h2>}
+                    {summoner.length !== 0 &&  
                         <>
+                            <div><strong>Summoner: </strong><a>{summoner.name}</a></div>
                             <div><strong>Summoner Level: </strong><a>{summoner.summonerLevel}</a></div>
                             <div><strong>Tier: </strong><a>{stats.tier}</a></div>
                             <div><strong>Rank: </strong><a>{stats.rank}</a></div>
