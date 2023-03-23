@@ -13,9 +13,11 @@ function MatchDetails(props) {
               {matchDetail.info.participants.map((player, index) =>
                 player.summonerId === props.summonerId &&
                 <div key={index}>
+                  <div className={player.win ? 'win' : 'loss'}>       
                   <p>Champion: {player.championName}</p>
                   <p>K/D/A: {player.challenges.kda}</p>
                   {player.win ? <p>Win or Loss: Win!</p> : <p>Win or Loss: Loss :(</p>}
+                  </div>
                 </div>
               )}
             </>
@@ -71,8 +73,8 @@ function SummonerCard() {
                     }
                 </div>
             }
-            {error && loading && <h1>Failed to Find Summoner, {searchInput}!</h1>}
-            {loading && !error && <h1>Loading...</h1>}
+            {error && loading && <h1 className='h1inbox'>Failed to Find Summoner, {searchInput}!</h1>}
+            {loading && !error && <h1 className='h1inbox'>Loading...</h1>}
         </div>
     )
 }
