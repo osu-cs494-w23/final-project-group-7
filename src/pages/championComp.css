@@ -1,5 +1,20 @@
 .ChampCard{
-    margin: 10px;
-    padding: 10px;
-    border:black solid 2px;
+    border: solid #C89B3C;
+    height: 550px;
+    margin: 5px;
+    width: 25%;
+}
+
+p{
+    font-family: Beaufort;
+    color: #A09B8C
+}
+
+a{
+    font-family: Beaufort;
+    color: #A09B8C
+}
+strong{
+    font-family: Beaufort;
+    color: #A09B8C
 }

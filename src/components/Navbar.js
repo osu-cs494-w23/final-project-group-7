@@ -16,9 +16,8 @@ export default function Navbar() {
 	return(
         <>
         <div className="navbar">
-            <a><NavLink to="/">Home</NavLink></a>
-            <a><NavLink to="/championCompare">Compare Champions</NavLink></a>
-            <a><NavLink to="/summonerCompare">Compare Summoners</NavLink> </a>
+          <a><NavLink to="/summonerCompare">Compare Summoners</NavLink> </a>
+          <a><NavLink to="/championCompare">Compare Champions</NavLink></a>
         </div>
         </>
     )

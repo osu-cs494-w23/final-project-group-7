@@ -5,8 +5,19 @@ import { Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import SummonerComp from './pages/summonerComp';
 
-function App() {
+
+function AppFooter() {
   return (
+    <footer classname = 'footerStyles'>
+      <p>&copy; Team 7</p>
+    </footer>
+  );
+}
+
+function App() {
+  
+  return (
+    <div className ="background">
     <>
       <Navbar/>
       <Routes>
@@ -15,6 +26,8 @@ function App() {
         <Route path="*" element={<NotFound/>}/>
       </Routes>
     </>
+    <AppFooter />
+    </div>
   );
 }
 

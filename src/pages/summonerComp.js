@@ -48,15 +48,15 @@ function SummonerCard() {
 
             {!loading && !error && 
                 <div className='summoner-stats-container'>
-                    <div><strong>Summoner: </strong>{summoner.name}</div>
+                    <div><strong>Summoner: </strong><a>{summoner.name}</a></div>
                     {summoner.length !== 0 && 
                         <>
-                            <div><strong>Summoner Level: </strong>{summoner.summonerLevel}</div>
-                            <div><strong>Tier: </strong>{stats.tier}</div>
-                            <div><strong>Rank: </strong>{stats.rank}</div>
-                            <div><strong>League Points: </strong>{stats.leaguePoints}</div>
-                            <div><strong>Matches Won: </strong>{stats.wins}</div>
-                            <div><strong>Matches Lost: </strong>{stats.losses}</div>
+                            <div><strong>Summoner Level: </strong><a>{summoner.summonerLevel}</a></div>
+                            <div><strong>Tier: </strong><a>{stats.tier}</a></div>
+                            <div><strong>Rank: </strong><a>{stats.rank}</a></div>
+                            <div><strong>League Points: </strong><a>{stats.leaguePoints}</a></div>
+                            <div><strong>Matches Won: </strong><a>{stats.wins}</a></div>
+                            <div><strong>Matches Lost: </strong><a>{stats.losses}</a></div>
                             {matchList.map((match, index) =>
                                 <div key={index}>
                                     <div><strong>Match {index + 1} Details</strong></div>
@@ -83,10 +83,10 @@ export default function SummonerComp() {
         <>
             <h1 className='summoner-comparison-title'>Account/Summoner Comparisons</h1>
             <div style ={{display: "flex"}}>
-                {Array.from(Array(4), (e, i) => {
-                    return <div key = {i} className = "summoner-card"><SummonerCard/></div>
-                })}
+            {Array.from(Array(4), (e, i) => {
+                return <div key = {i} className = "summoner-card"><SummonerCard/></div>
+            })}
             </div>
         </>
     )
-}
+}   

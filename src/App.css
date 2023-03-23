@@ -1,3 +1,19 @@
+.background{
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url('https://pbr.leagueoflegends.com/assets/lcu/images/lcu_webform_backdrop.jpg');
+  background-attachment: fixed;
+  background-color: black;
+}
+
+.footerStyles{
+  background-color: #f8f8f8;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.75rem;
+  margin-top: auto;
+}
+
 .App {
   text-align: center;
 }
