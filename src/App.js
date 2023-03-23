@@ -8,7 +8,7 @@ import SummonerComp from './pages/summonerComp';
 
 function AppFooter() {
   return (
-    <footer classname = 'footerStyles'>
+    <footer className = 'footerStyles'>
       <p>&copy; Team 7</p>
     </footer>
   );
